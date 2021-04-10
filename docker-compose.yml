@@ -26,11 +26,10 @@ services:
     container_name: consul-template
     volumes:
       - "$PWD/consul-template:/consul-template"
-      - "$PWD/api-gateway/conf.d:/etc/nginx/conf.d/"
-    environment:
-      - consul:consul
-      - nginx:nginx
+      - "$PWD/api-gateway/conf.d/:/etc/nginx/conf.d/"
     command: consul-template -config /consul-template/consul-template.hcl
+    depends_on:
+      - consul
     networks:
       - main_network
 
@@ -40,11 +39,16 @@ services:
     build:
       context: api-gateway
     volumes:
-      - "$PWD/api-gateway/conf.d:/etc/nginx/conf.d/"
+      - "$PWD/api-gateway/conf.d/:/etc/nginx/conf.d/"
+    depends_on:
+      - consul
     ports:
       - 8080:8080
-    links:
-      - consul-template
+    healthcheck:
+      # I tried adding '&& exit 1',  '|| exit `' it doesn't work.
+      test: bash -c "[ -f /etc/nginx/conf.d/api_gateway.conf ]"
+      timeout: 1s
+      retries: 20
     restart: on-failure:10
     networks:
       - main_network
@@ -54,6 +58,8 @@ services:
     container_name: service-product
     build:
       context: ./product
+    depends_on:
+      - consul
     networks:
       - main_network
 

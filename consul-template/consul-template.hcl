@@ -12,5 +12,5 @@ template {
   source = "/etc/nginx/conf.d/api_gateway.conf.ctmpl"
   destination = "/etc/nginx/conf.d/api_gateway.conf"
   perms = 0600
-  //  command	= "/usr/sbin/nginx -s reload"
+  //  command = "nginx -s reload"
 }
