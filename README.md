@@ -15,7 +15,7 @@ Technologies Involved
 ------------
 
 ```bash
-$ sudo chmod +x ./start.sh
+$ sudo chmod +x ./start.sh ./clean.sh
 $ ./start.sh
 ```
 ##### Accessing
