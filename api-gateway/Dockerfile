@@ -10,8 +10,8 @@ RUN apk add --no-cache --update \
 COPY nginx.d/ /etc/nginx/
 COPY scripts/ /usr/local/bin/
 
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
-    && chmod +x /usr/local/bin/confWatcher.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh \
+    && chmod +x /usr/local/bin/reload.sh
 
-ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 CMD ["nginx", "-g", "daemon off;"]
