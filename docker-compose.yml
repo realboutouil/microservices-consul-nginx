@@ -44,11 +44,6 @@ services:
       - consul
     ports:
       - 8080:8080
-    healthcheck:
-      # I tried adding '&& exit 1',  '|| exit `' it doesn't work.
-      test: bash -c "[ -f /etc/nginx/conf.d/api_gateway.conf ]"
-      timeout: 1s
-      retries: 20
     restart: on-failure:10
     networks:
       - main_network
